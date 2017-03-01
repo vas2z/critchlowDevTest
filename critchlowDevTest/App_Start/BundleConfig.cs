@@ -24,14 +24,14 @@ namespace critchlowDevTest
                       "~/Scripts/respond.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
-                      "~/Scripts/angular.js"));
+                      "~/Scripts/angular.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/critchlow").Include(
-                      "~/Scripts/critchlow/*.js"));
+                      "~/Scripts/critchlow/critchlow.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.min.css"));
         }
     }
 }

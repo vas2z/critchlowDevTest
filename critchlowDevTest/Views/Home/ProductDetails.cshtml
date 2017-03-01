@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Product Details";
+}
+
+<div ng-app="myApp" ng-controller="ProductCtrl" class="container">
+    <div ng-show="loaded" class="ng-cloak">
+        <button type="button" class="btn btn-default" onclick="document.location.href='/'"><span class="glyphicon glyphicon-arrow-left"></span> Back</button>
+
+        <h2>{{message}}</h2>
+        <h3>{{product.Name}}</h3>
+
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#details" data-toggle="tab">Details</a>
+            </li>
+            <li>
+                <a href="#related" data-toggle="tab">Related Products</a>
+            </li>
+            <li>
+                <a href="#reviews" data-toggle="tab">Reviews</a>
+            </li>
+        </ul>
+
+        <div class="tab-content clearfix">
+            <div class="tab-pane active" id="details">
+                <h3>Description: {{product.Description}}</h3>
+                <h3>Price: {{product.Price}}</h3>
+                <h3>Currency: {{product.CurrencyCode}}</h3>
+                <h3>Units Available: {{product.Quantity}}</h3>
+            </div>
+            <div class="tab-pane" id="related">
+                <h3>No related products found</h3>
+            </div>
+            <div class="tab-pane" id="reviews">
+                <h3>I rate this product 10/10</h3>
+            </div>
+        </div>
+
+        <div>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary btn-lg pull-right col-md-2" data-toggle="modal" data-target="#myModal" ng-class="{'disabled' : product.Quantity == 0}">
+                Buy <span class="glyphicon glyphicon-shopping-cart"></span>
+            </button>
+            <div class="alert alert-warning col-md-6" ng-show="product.Quantity == 0">Sorry we are out of stock.</div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Purchase {{product.Name}}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="orderForm">
+                                <div class="form-group">
+                                    <label for="quantity">Quantity:</label>
+                                    <input type="number" class="form-control" id="quantity" name="quantityInput" ng-model="purchase.quantity" ng-min="1" ng-max="product.Quantity" required step="1">
+                                    <div role="alert">
+                                        <br />
+                                        <div ng-if="product.CurrencyCode != 'NZD'">
+                                            <div class="alert alert-info">
+                                                Note that the product you're ordering is not priced in NZ dollars.
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-danger" ng-show="!orderForm.quantityInput.$valid">
+                                            <strong>Invalid Input!</strong>
+                                            <span ng-if="orderForm.quantityInput.$error.max">
+                                                We don't have that many items in stock.
+                                            </span>
+                                            <span ng-if="orderForm.quantityInput.$error.required">
+                                                Please enter a value.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" ng-class="{'disabled' : !orderForm.quantityInput.$valid}" data-dismiss="modal" ng-click="confirmPurchase(purchase.quantity, product.Name)">Buy</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

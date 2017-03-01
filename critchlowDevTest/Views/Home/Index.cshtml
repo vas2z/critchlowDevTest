@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Overview";
+}
+
+<div ng-app="myApp" ng-controller="HomeCtrl" class="container" >
+    <div ng-show="loaded" class="ng-cloak">
+        <div class="row" ng-show="loaded">
+            <div class="bs-example marginTop50" data-example-id="table-within-panel">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3>Critchlow Products</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            Filter: <input type="text" ng-model="productFilter" placeholder="Enter a name here">
+                        </p>
+                    </div>
+                    <table class="table hoverTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Product Name
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                                <th>
+                                    Currency
+                                </th>
+                                <th>
+                                    Units Available
+                                </th>
+                                <th>
+
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="product in products | filter: productFilter | orderBy: 'SortOrder'" ng-class="{'no-quantity-bg' : product.Quantity == 0}">
+                                <th scope="row">
+                                    {{product.Name}}
+                                </th>
+                                <td>
+                                    <span>{{product.Price | number:2}}</span>
+                                </td>
+                                <td>
+                                    {{product.CurrencyCode}}
+                                </td>
+                                <td>
+                                    <span>{{product.Quantity}}</span>
+                                </td>
+                                <td>
+                                    <span class="glyphicon glyphicon-info-sign"></span> <a href="Home/ProductDetails#{{product.Name}}">Details</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
